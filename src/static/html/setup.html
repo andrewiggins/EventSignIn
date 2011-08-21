@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Setup Event</title>
+<style type="text/css">
+    body {text-align: center;}
+    .label {font-weight: bold;
+            text-align: right;}
+    .center {margin: auto auto;}
+</style>
+<script type="text/javascript" src=" https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('#create').hide();
+    $('#login').hide();
+    $('nav a').click(function() {
+        var clicked = $($(this).attr('href'));
+        var visible = $('.action:visible');
+                
+        if (!visible.is(clicked))
+            visible.slideToggle();
+            
+        clicked.slideToggle();
+        
+    });
+})
+</script>
+</head>
+
+<body>
+
+<h1>Setup Event</h1>
+
+<nav>
+<a href="#create">Create Event</a>
+<a href="#login">Login to Event</a>
+</nav>
+
+<section id="login" class="action">
+<form action="/event" method="get">
+<table class="center">
+<tbody>
+    <tr>
+        <td class="label">Organization Name:</td>
+        <td class="input"><input name="organization" type="text" /></td>
+    </tr>
+    <tr>
+        <td class="label">Event Name:</td>
+        <td class="input"><input name="event" type="text" /></td>
+    </tr>
+    <tr>
+        <td class="label">Date:</td>
+        <td class="input"><input name="date" type="text" /></td>
+    </tr>
+    <tr>
+        <td class="label">Password:</td>
+        <td class="input"><input name="password" type="password" /></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="input"><input type="submit" value="Login" /></td>
+    </tr>
+</tbody>
+</table>
+</form>
+</section>
+
+<section id="create" class="action">
+<form action="/event" method="get">
+<table class="center">
+<tbody>
+    <tr>
+        <td colspan="2" class="">Event Information</td>
+    </tr>
+    <tr>
+        <td class="label">Organization Name:</td>
+        <td class="input"><input name="organization" type="text" /></td>
+    </tr>
+    <tr>
+        <td class="label">Event Name:</td>
+        <td class="input"><input name="event" type="text" /></td>
+    </tr>
+    <tr>
+        <td class="label">Date:</td>
+        <td class="input"><input name="date" type="text" /></td>
+    </tr>
+    <tr>
+        <td class="label">Choose a password:</td>
+        <td class="input"><input name="password" type="password" /></td>
+    </tr>
+    <tr>
+        <td class="label">Re-enter Password:</td>
+        <td class="input"><input name="password" type="password" /></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="input"><input type="submit" value="Create Event" /></td>
+    </tr>
+</tbody>
+</table>
+</form>
+</section>
+
+</body>
+</html>

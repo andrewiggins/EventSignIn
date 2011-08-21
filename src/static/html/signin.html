@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sign In</title>
+<style type="text/css">
+    body {text-align: center;}
+    .label {text-align:right;}
+    .bold {font-weight:bold;}
+    .center {margin: auto auto;}
+</style>
+</head>
+
+<body>
+
+<h1>Sign In</h1>
+<h2>{{ organization }} {{ event }}</h2>
+
+<form action="/record" method="get">
+<table class="center">
+<tbody>
+    <tr>
+        <td class="label bold">Name:</td>
+        <td class="input"><input name="name" type="text" /></td>
+    </tr>
+    <tr>
+        <td class="label bold">Email Address</td>
+        <td class="input"><input name="email" type="text" /></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td class="input"><input type="submit" value="Sign In" /></td>
+    </tr>
+</tbody>
+</table>
+<input name="organization" type="hidden" value="{{ organization }}" />
+<input name="event" type="hidden" value="{{ event }}" />
+<input name="date" type="hidden" value="{{ date }}" />
+</form>
+
+<p>
+{% for user in user_list|reverse %}
+    {% if loop.first %}
+        <span class="bold"> {{ user.name }} ({{ user.email }}) is signed in.</span> <br /> 
+    {% else %}
+        {{ user.name }} ({{ user.email }}) is signed in. <br />
+    {% endif %}
+{% endfor %}
+</p>
+
+</body>
+<html>
