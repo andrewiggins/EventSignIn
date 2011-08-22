@@ -1,0 +1,22 @@
+application: eventsignin
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /favicon.ico
+  static_files: static/img/favicon.ico
+  upload: static/img/favicon.ico
+
+- url: /js
+  static_dir: static/js
+  
+- url: /css
+  static_dir: static/css
+
+- url: /img
+  static_dir: static/img
+
+- url: /.*
+  script: server/__init__.py
+  secure: always
