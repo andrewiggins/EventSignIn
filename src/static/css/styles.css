@@ -1,0 +1,10 @@
+/*
+ * General Website CSS
+ */
+body { 
+  text-align: center; /* for IE */ 
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 11pt;
+  width: 760px; /* so our website will display nicely on 800x600 screens */
+  margin: 0 auto; /* to center */
+}
