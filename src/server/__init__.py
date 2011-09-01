@@ -29,6 +29,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
+
 class HomePage(webapp.RequestHandler):
 
     def get(self):
@@ -37,12 +38,20 @@ class HomePage(webapp.RequestHandler):
         self.response.out.write(template.render(path, template_values, True))
 
 
+class SignIn(webapp.RequestHandler):
+    
+    def get(self):
+        path = '../static/html/signin.html'
+        template_values = {'organization': 'Phi Sigma Pi', 'event': 'Rush Event'}
+        self.response.out.write(template.render(path, template_values, True))
+
+
 def main():
     run_wsgi_app(app)
 
 
-app = webapp.WSGIApplication([('/?', HomePage)
-                              ],
+app = webapp.WSGIApplication([('/?', HomePage),
+                              ('/event/?', SignIn)],
                               debug=True)
 
 

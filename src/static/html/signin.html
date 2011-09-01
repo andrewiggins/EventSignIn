@@ -2,12 +2,37 @@
 <html>
 <head>
 <title>Sign In</title>
-<style type="text/css">
-    body {text-align: center;}
-    .label {text-align:right;}
-    .bold {font-weight:bold;}
-    .center {margin: auto auto;}
-</style>
+<link rel="stylesheet" href="/css/styles.css" />
+<script type="text/javascript" src=" https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(function () {
+    $('#signin').submit(function() {
+        var name = $('#name').val();
+        var email = $('#email').val();
+        prependUser(name, email);
+        
+        return false;
+    });
+})
+
+function prependUser(name, email)
+{
+    var logcontent = name + ' ('+email+') has signed in.';
+    var spanhtml = '<span>'+logcontent+'</span>';
+    var imghtml = '<img src="/img/loading.gif" />'
+    var loghtml = '<div class="listentry first">'+spanhtml+imghtml+'</div>';
+
+    if (name != '' || email != '')
+    {
+        $('#log div.first img').addClass('hidden');
+        $('#log div.first').removeClass('first');
+        
+        $('#log').prepend(loghtml);
+        $('#log div.first').hide().slideDown();
+    }
+}
+
+</script>
 </head>
 
 <body>
@@ -15,37 +40,34 @@
 <h1>Sign In</h1>
 <h2>{{ organization }} {{ event }}</h2>
 
-<form action="/record" method="get">
-<table class="center">
-<tbody>
-    <tr>
-        <td class="label bold">Name:</td>
-        <td class="input"><input name="name" type="text" /></td>
-    </tr>
-    <tr>
-        <td class="label bold">Email Address</td>
-        <td class="input"><input name="email" type="text" /></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td class="input"><input type="submit" value="Sign In" /></td>
-    </tr>
-</tbody>
-</table>
+<form id="signin" action="/event" method="get">
+
+<fieldset name="signin.fields" class="center">
+<legend>Sign In</legend>
+<div class="fields center">
+    <div class="field">
+        <label for="name">Name:</label>
+        <input id="name" name="name" type="text" />
+    </div>
+    <div class="field">
+        <label for="email">Email:</label>
+        <input id="email" name="email" type="email" />
+    </div>
+    <div class="field">
+        <label></label>
+        <input type="submit" value="Sign In" />
+    </div>
+</div>
+</fieldset>
+
 <input name="organization" type="hidden" value="{{ organization }}" />
 <input name="event" type="hidden" value="{{ event }}" />
 <input name="date" type="hidden" value="{{ date }}" />
+
 </form>
 
-<p>
-{% for user in user_list|reverse %}
-    {% if loop.first %}
-        <span class="bold"> {{ user.name }} ({{ user.email }}) is signed in.</span> <br /> 
-    {% else %}
-        {{ user.name }} ({{ user.email }}) is signed in. <br />
-    {% endif %}
-{% endfor %}
-</p>
+<section id="log">
+</section>
 
 </body>
 <html>
