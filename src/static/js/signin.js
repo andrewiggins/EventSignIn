@@ -1,25 +1,39 @@
 var imghtml = '<img src="/img/loading.gif" />';
 
-function prependUser(name, email)
-{
+function prependUser(name, email){
     var logcontent = name + ' ('+email+') has signed in.';
     var spanhtml = '<span>'+logcontent+'</span>';
     
-    var loghtml = '<div class="listentry first">'+spanhtml+'</div>';
+    var loghtml = '<div class="signinlog_entry first">'+spanhtml+'</div>';
 
-    if (name != '' || email != '')
-    {
-        $('#log div.first').removeClass('first');
-        
-        $('#log').prepend(loghtml);
-        $('#log div.first').hide().slideDown();
-        
-        signinUser($('#log div.first'), name, email);
+    if (name != '' || email != '') {
+        if (!userexists(name, email)) {
+            $('#signinlog div.first').removeClass('first');
+            
+            $('#signinlog').prepend(loghtml);
+            $('#signinlog div.first').hide().slideDown();
+            
+            signinUser($('#signinlog div.first'), name, email);
+        }
     }
 }
 
-function signinUser(tag, name, email) 
-{   
+function userexists(name, email) {
+    var tags = $('.signinlog_entry');
+    var namefilter = "div:contains('"+name+" ')"
+    var emailfilter = "div:contains('("+email+")')";
+    
+    if (name != '')
+        tags = tags.filter(namefilter);
+    
+    if (email != '')
+        tags = tags.filter(emailfilter);
+    
+    return tags.length != 0;
+    
+}
+
+function signinUser(tag, name, email) {   
     $.ajax({
         url: '/signin',
         dataType: 'json',
