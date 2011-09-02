@@ -46,23 +46,29 @@ function signinUser(tag, name, email)
             tag.append(imghtml);
         },
         success: function(data, textStatus, jqXHR) {
-            tag.removeClass('loading');
             if (data.status == 'success')
-                tag.find('img').attr('src', '/img/tick.png');
-            else {
-                tag.addClass('error');
-                tag.find('img').attr('src', '/img/cross.png');
-                errormsg = name + ' (' + email + ') ' + 'has failed. Please try again.'
-                tag.find('span').text(errormsg);
-            }
+                signInSuccess(tag);
+            else
+                signInError(tag, name, email);
         },
         error: function(jqXHR, textStatus, errorThrown) {
+            signInError(tag, name, email);
+        },
+        complete: function(jqXHR, textStatus) {
             tag.removeClass('loading');
-            tag.addClass('error');
-            tag.find('img').attr('src', '/img/cross.png');
-            console.log(tag.find('span').text());
         }
     })
+}
+
+function signInSuccess(tag) {
+    tag.find('img').attr('src', '/img/tick.png');
+}
+
+function signInError(tag, name, email) {
+    tag.addClass('error');
+    tag.find('img').attr('src', '/img/cross.png');
+    errormsg = name + ' (' + email + ') ' + 'has failed. Please try again.'
+    tag.find('span').text(errormsg);
 }
 
 </script>
