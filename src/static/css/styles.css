@@ -2,11 +2,11 @@
  * General Website CSS
  */
 body { 
-  text-align: center; /* for IE */ 
-  font-family: Verdana, Geneva, sans-serif;
-  font-size: 11pt;
-  width: 760px; /* so our website will display nicely on 800x600 screens */
-  margin: 0 auto; /* to center */
+    text-align: center; /* for IE */ 
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 11pt;
+    width: 760px; /* so our website will display nicely on 800x600 screens */
+    margin: 0 auto; /* to center */
 }
 
 .center {
@@ -72,9 +72,12 @@ input {
 .first {
     font-weight: bold;
 }
-.hidden {
-    visibility: hidden;
+.nodisplay {
+    display: none;
 }
 .loading {
-    color: #C0C0C0;
+    color: gray;
+}
+.error {
+    color: red;
 }

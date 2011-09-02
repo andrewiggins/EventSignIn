@@ -29,6 +29,9 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
+import time
+import json
+
 
 class HomePage(webapp.RequestHandler):
 
@@ -38,7 +41,7 @@ class HomePage(webapp.RequestHandler):
         self.response.out.write(template.render(path, template_values, True))
 
 
-class SignIn(webapp.RequestHandler):
+class SignInPage(webapp.RequestHandler):
     
     def get(self):
         path = '../static/html/signin.html'
@@ -46,12 +49,30 @@ class SignIn(webapp.RequestHandler):
         self.response.out.write(template.render(path, template_values, True))
 
 
+class RecordUser(webapp.RequestHandler):
+    count = 0;
+    
+    def get(self):
+        name = self.request.get('name')
+        email = self.request.get('email')
+        
+        time.sleep(2);
+        if RecordUser.count % 2 == 0:
+            resultdata = {'status': 'success'}
+        else:
+            resultdata = {'status': 'error'}
+
+        resultjson = json.dumps(resultdata)
+        self.response.out.write(resultjson)
+        RecordUser.count += 1;
+
 def main():
     run_wsgi_app(app)
 
 
 app = webapp.WSGIApplication([('/?', HomePage),
-                              ('/event/?', SignIn)],
+                              ('/event/?', SignInPage),
+                              ('/signin/?', RecordUser)],
                               debug=True)
 
 

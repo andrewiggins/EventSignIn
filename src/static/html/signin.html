@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="/css/styles.css" />
 <script type="text/javascript" src=" https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 <script type="text/javascript">
+var imghtml = '<img src="/img/loading.gif" />';
+
 $(function () {
     $('#signin').submit(function() {
         var name = $('#name').val();
@@ -19,17 +21,48 @@ function prependUser(name, email)
 {
     var logcontent = name + ' ('+email+') has signed in.';
     var spanhtml = '<span>'+logcontent+'</span>';
-    var imghtml = '<img src="/img/loading.gif" />'
-    var loghtml = '<div class="listentry first">'+spanhtml+imghtml+'</div>';
+    
+    var loghtml = '<div class="listentry first">'+spanhtml+'</div>';
 
     if (name != '' || email != '')
     {
-        $('#log div.first img').addClass('hidden');
         $('#log div.first').removeClass('first');
         
         $('#log').prepend(loghtml);
         $('#log div.first').hide().slideDown();
+        
+        signinUser($('#log div.first'), name, email);
     }
+}
+
+function signinUser(tag, name, email) 
+{   
+    $.ajax({
+        url: '/signin',
+        dataType: 'json',
+        data: {'name': name, 'email': email},
+        beforeSend: function(jqXHR, settings) {
+            tag.addClass('loading');
+            tag.append(imghtml);
+        },
+        success: function(data, textStatus, jqXHR) {
+            tag.removeClass('loading');
+            if (data.status == 'success')
+                tag.find('img').attr('src', '/img/tick.png');
+            else {
+                tag.addClass('error');
+                tag.find('img').attr('src', '/img/cross.png');
+                errormsg = name + ' (' + email + ') ' + 'has failed. Please try again.'
+                tag.find('span').text(errormsg);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            tag.removeClass('loading');
+            tag.addClass('error');
+            tag.find('img').attr('src', '/img/cross.png');
+            console.log(tag.find('span').text());
+        }
+    })
 }
 
 </script>
@@ -63,6 +96,10 @@ function prependUser(name, email)
 <input name="organization" type="hidden" value="{{ organization }}" />
 <input name="event" type="hidden" value="{{ event }}" />
 <input name="date" type="hidden" value="{{ date }}" />
+
+<img src="/img/loading.gif" class="nodisplay"/>
+<img src="/img/tick.png" class="nodisplay"/>
+<img src="/img/cross.png" class="nodisplay"/>
 
 </form>
 
