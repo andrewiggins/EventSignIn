@@ -1,5 +1,3 @@
-var imghtml = '<img src="/img/loading.gif" />';
-
 function prependUser(name, email){
     var logcontent = name + ' ('+email+') has signed in.';
     var spanhtml = '<span>'+logcontent+'</span>';
@@ -7,18 +5,29 @@ function prependUser(name, email){
     var loghtml = '<div class="signinlog_entry first">'+spanhtml+'</div>';
 
     if (name != '' || email != '') {
-        if (!userexists(name, email)) {
+        var userTag = getUserTag(name, email)
+        if (userTag.length == 0) {
             $('#signinlog div.first').removeClass('first');
             
             $('#signinlog').prepend(loghtml);
             $('#signinlog div.first').hide().slideDown();
             
             signinUser($('#signinlog div.first'), name, email);
+        } else {
+            userTag = userTag.first();
+            if (userTag.hasClass('error')) {
+                showUserMsg('error', name, email);
+                // TODO: Call retryUser function
+            } else if (userTag.hasClass('loading')) {
+                showUserMsg('loading', name, email);
+            } else {
+                showUserMsg('success', name, email);
+            }
         }
     }
 }
 
-function userexists(name, email) {
+function getUserTag(name, email) {
     var tags = $('.signinlog_entry');
     var namefilter = "div:contains('"+name+" ')"
     var emailfilter = "div:contains('("+email+")')";
@@ -29,8 +38,49 @@ function userexists(name, email) {
     if (email != '')
         tags = tags.filter(emailfilter);
     
-    return tags.length != 0;
+    return tags;
+}
+
+function getUserMsg(status, name, email) {
+    var msg = name+' ('+email+') ';
+    switch (status) {
+        case "error":
+            msg += 'had an error. Retrying...';
+            break;
+        case "loading":
+            msg += 'is currently saving...';
+            break;
+        default:
+            msg += 'has already successfully logged in.';
+    }
+    return msg;
+}
+
+function showUserMsg(status, name, email) {
+    var msg = getUserMsg(status, name, email);
     
+    $('#msgs').addClass('changing')
+    $('#msgs').slideUp();
+        
+    setTimeout(function () {
+        var msgcount = $('#msgs').children().length + 1;
+        var msgid = 'msg' + msgcount;
+        var newmsg = $('<div>').attr('id', msgid).addClass(status).text(msg);
+        
+        $('#msgs').children().hide();
+        $('#msgs').prepend(newmsg).slideDown();
+        $('#msgs').removeClass('changing');
+        
+        setTimeout(function() {
+            var first_msgid = $('#msgs').children().first().attr('id');
+            var new_msgid = newmsg.attr('id');
+            var idmatch = (first_msgid == new_msgid);
+            var ischanging = $('#msgs').hasClass('changing');
+            
+            if (!ischanging && idmatch)
+                $('#msgs').slideUp();
+        }, 2000)
+    }, 400)
 }
 
 function signinUser(tag, name, email) {   
@@ -40,7 +90,7 @@ function signinUser(tag, name, email) {
         data: {'name': name, 'email': email},
         beforeSend: function(jqXHR, settings) {
             tag.addClass('loading');
-            tag.append(imghtml);
+            tag.append('<img src="/img/loading.gif" />');
         },
         success: function(data, textStatus, jqXHR) {
             if (data.status == 'success')

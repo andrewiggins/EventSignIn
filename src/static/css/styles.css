@@ -66,9 +66,6 @@ input {
     display: table-cell;
 }
 
-#log {
-    margin: 1em;
-}
 .first {
     font-weight: bold;
 }
@@ -81,3 +78,10 @@ input {
 .error {
     color: red;
 }
+.success {
+    color: green;
+}
+section {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}   

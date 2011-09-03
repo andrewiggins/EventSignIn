@@ -3,7 +3,8 @@
 <head>
 <title>Sign In</title>
 <link rel="stylesheet" href="/css/styles.css" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> -->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/signin.js"></script>
 <script type="text/javascript">
 $(function () {
@@ -20,12 +21,16 @@ $(function () {
 
 <body>
 
+<header>
 <h1>Sign In</h1>
 <h2>{{ organization }} {{ event }}</h2>
+</header>
 
-<form id="signin" action="/event" method="get">
+<section id="msgs"></section>
 
-<fieldset name="signin.fields" class="center">
+<form id="signin" action="/event" method="post">
+
+<fieldset name="signin_ fields" class="center">
 <legend>Sign In</legend>
 <div class="fields center">
     <div class="field">
@@ -51,7 +56,7 @@ $(function () {
 <img src="/img/tick.png" class="nodisplay"/>
 <img src="/img/cross.png" class="nodisplay"/>
 
-</form>
+</form>  
 
 <section id="signinlog">
 </section>
