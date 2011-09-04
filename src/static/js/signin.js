@@ -1,4 +1,4 @@
-function prependUser(name, email){
+    function prependUser(name, email){
     var logcontent = name + ' ('+email+') has signed in.';
     var spanhtml = '<span>'+logcontent+'</span>';
     
@@ -29,16 +29,11 @@ function prependUser(name, email){
 
 function getUserTag(name, email) {
     var tags = $('.signinlog_entry');
-    var namefilter = "div:contains('"+name+" ')"
-    var emailfilter = "div:contains('("+email+")')";
-    
-    if (name != '')
-        tags = tags.filter(namefilter);
-    
-    if (email != '')
-        tags = tags.filter(emailfilter);
-    
-    return tags;
+    var regex = new RegExp('^'+name+' \\('+email+'\\) .*');
+
+    return tags.filter(function() {
+        return regex.test(getText(this))
+    });
 }
 
 function getUserMsg(status, name, email) {
@@ -116,4 +111,12 @@ function signInError(tag, name, email) {
     tag.find('img').attr('src', '/img/cross.png');
     errormsg = name + ' (' + email + ') ' + 'has failed. Please try again.'
     tag.find('span').text(errormsg);
+}
+
+function getText(tag) {
+    if (tag.innerText == undefined) {
+        return tag.textContent;
+    } else {
+        return tag.innerText;
+    }
 }
