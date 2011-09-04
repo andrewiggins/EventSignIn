@@ -57,14 +57,15 @@ class RecordUser(webapp.RequestHandler):
         email = self.request.get('email')
         
         time.sleep(2);
-        if RecordUser.count % 2 == 0:
-            resultdata = {'status': 'success'}
-        else:
+        if RecordUser.count % 5 == 0:
             resultdata = {'status': 'error'}
+        else:
+            resultdata = {'status': 'success'}
 
         resultjson = json.dumps(resultdata)
         self.response.out.write(resultjson)
         RecordUser.count += 1;
+
 
 def main():
     run_wsgi_app(app)

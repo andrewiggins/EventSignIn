@@ -1,4 +1,4 @@
-    function prependUser(name, email){
+function prependUser(name, email){
     var logcontent = name + ' ('+email+') has signed in.';
     var spanhtml = '<span>'+logcontent+'</span>';
     
@@ -17,7 +17,9 @@
             userTag = userTag.first();
             if (userTag.hasClass('error')) {
                 showUserMsg('error', name, email);
-                // TODO: Call retryUser function
+                setTimeout(function() {
+                    retryUser(userTag, name, email);
+                }, 1000);
             } else if (userTag.hasClass('loading')) {
                 showUserMsg('loading', name, email);
             } else {
@@ -76,6 +78,12 @@ function showUserMsg(status, name, email) {
                 $('#msgs').slideUp();
         }, 2000)
     }, 400)
+}
+
+function retryUser(tag, name, email) {
+    console.log('retryUser');
+    tag.slideUp().remove();
+    prependUser(name, email);
 }
 
 function signinUser(tag, name, email) {   
