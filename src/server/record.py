@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 #-------------------------------------------------------------------------------
-# Name:        __init__.py (for src/server/ package)
-# Purpose:     Contains all code for serving webpages to clients
+# Name:        server.record
+# Purpose:     RequestHandler for the RecordUserPage
 #
-# Author(s):   Andre Wiggins
+# Author:      Andre Wiggins
 #
-# Created:     08/22/2011
+# Created:     Sep 4, 2011
 # Copyright:   (c) Andre Wiggins 2011
 # License:
 #
@@ -22,26 +22,24 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-from google.appengine.dist import use_library
-use_library('django', '1.2')
-
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
 
-from setup import SetupPage
-from signin import SignInPage
-from record import RecordUser
+import time
+import json
 
+class RecordUser(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
+    count = 0;
+    
+    def get(self):
+        name = self.request.get('name')
+        email = self.request.get('email')
+        
+        time.sleep(2);
+        if RecordUser.count % 5 == 0:
+            resultdata = {'status': 'error'}
+        else:
+            resultdata = {'status': 'success'}
 
-def main():
-    run_wsgi_app(app)
-
-
-app = webapp.WSGIApplication([('/?', SetupPage), #@UndefinedVariable - for Eclipse
-                              ('/event/?', SignInPage),
-                              ('/signin/?', RecordUser)],
-                              debug=True)
-
-
-if __name__ == "__main__":
-    main()
+        resultjson = json.dumps(resultdata)
+        self.response.out.write(resultjson)
+        RecordUser.count += 1;

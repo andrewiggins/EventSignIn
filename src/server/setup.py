@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 #-------------------------------------------------------------------------------
-# Name:        __init__.py (for src/server/ package)
-# Purpose:     Contains all code for serving webpages to clients
+# Name:        server.setup
+# Purpose:     RequestHandler for the SetupPage
 #
-# Author(s):   Andre Wiggins
+# Author:      Andre Wiggins
 #
-# Created:     08/22/2011
+# Created:     Sep 4, 2011
 # Copyright:   (c) Andre Wiggins 2011
 # License:
 #
@@ -22,26 +22,13 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-from google.appengine.dist import use_library
-use_library('django', '1.2')
-
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
-
-from setup import SetupPage
-from signin import SignInPage
-from record import RecordUser
+from google.appengine.ext.webapp import template
 
 
-def main():
-    run_wsgi_app(app)
+class SetupPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
 
-
-app = webapp.WSGIApplication([('/?', SetupPage), #@UndefinedVariable - for Eclipse
-                              ('/event/?', SignInPage),
-                              ('/signin/?', RecordUser)],
-                              debug=True)
-
-
-if __name__ == "__main__":
-    main()
+    def get(self):
+        path = '../static/html/setup.html'
+        template_values = {}
+        self.response.out.write(template.render(path, template_values, True))
