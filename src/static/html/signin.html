@@ -11,7 +11,7 @@ $(function () {
     $('#signin').submit(function() {
         var name = $('#name').val();
         var email = $('#email').val();
-        prependUser(name, email);
+        signInUser(name, email);
         
         return false;
     });

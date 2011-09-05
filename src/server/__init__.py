@@ -33,7 +33,7 @@ import time
 import json
 
 
-class HomePage(webapp.RequestHandler):
+class HomePage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
 
     def get(self):
         path = '../static/html/setup.html'
@@ -41,7 +41,7 @@ class HomePage(webapp.RequestHandler):
         self.response.out.write(template.render(path, template_values, True))
 
 
-class SignInPage(webapp.RequestHandler):
+class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
     
     def get(self):
         path = '../static/html/signin.html'
@@ -49,7 +49,7 @@ class SignInPage(webapp.RequestHandler):
         self.response.out.write(template.render(path, template_values, True))
 
 
-class RecordUser(webapp.RequestHandler):
+class RecordUser(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
     count = 0;
     
     def get(self):
@@ -71,7 +71,7 @@ def main():
     run_wsgi_app(app)
 
 
-app = webapp.WSGIApplication([('/?', HomePage),
+app = webapp.WSGIApplication([('/?', HomePage), #@UndefinedVariable - for Eclipse
                               ('/event/?', SignInPage),
                               ('/signin/?', RecordUser)],
                               debug=True)

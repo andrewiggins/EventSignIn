@@ -1,18 +1,29 @@
-function prependUser(name, email){
-    var logcontent = name + ' ('+email+') has signed in.';
-    var spanhtml = '<span>'+logcontent+'</span>';
-    
-    var loghtml = '<div class="signinlog_entry first">'+spanhtml+'</div>';
+// TODO: on retry, it shows the error msg again....
+// TODO: when a log is sent through the channel, no picture will be shown
+// TODO: re-organize server
 
+// TODO: setup datastore
+// TODO: setup channel
+// TODO: setup download
+
+function prependUser(name, email){
+    if (name != '' || email != '') {
+        var logcontent = name + ' ('+email+') has signed in.';
+        var spanhtml = '<span>'+logcontent+'</span>';
+        var loghtml = '<div class="signinlog_entry first">'+spanhtml+'</div>';
+        
+        $('#signinlog div.first').removeClass('first');
+        $('#signinlog').prepend(loghtml);
+        $('#signinlog div.first').hide().slideDown();
+    }
+}
+
+function signInUser(name, email) {
     if (name != '' || email != '') {
         var userTag = getUserTag(name, email)
         if (userTag.length == 0) {
-            $('#signinlog div.first').removeClass('first');
-            
-            $('#signinlog').prepend(loghtml);
-            $('#signinlog div.first').hide().slideDown();
-            
-            signinUser($('#signinlog div.first'), name, email);
+            prependUser(name, email);
+            registerUser($('#signinlog div.first'), name, email);
         } else {
             userTag = userTag.first();
             if (userTag.hasClass('error')) {
@@ -34,7 +45,7 @@ function getUserTag(name, email) {
     var regex = new RegExp('^'+name+' \\('+email+'\\) .*');
 
     return tags.filter(function() {
-        return regex.test(getText(this))
+        return regex.test($(this).text())
     });
 }
 
@@ -57,9 +68,7 @@ function showUserMsg(status, name, email) {
     var msg = getUserMsg(status, name, email);
     
     $('#msgs').addClass('changing')
-    $('#msgs').slideUp();
-        
-    setTimeout(function () {
+    $('#msgs').slideUp(function () {
         var msgcount = $('#msgs').children().length + 1;
         var msgid = 'msg' + msgcount;
         var newmsg = $('<div>').attr('id', msgid).addClass(status).text(msg);
@@ -77,16 +86,17 @@ function showUserMsg(status, name, email) {
             if (!ischanging && idmatch)
                 $('#msgs').slideUp();
         }, 2000)
-    }, 400)
+    });
 }
 
 function retryUser(tag, name, email) {
-    console.log('retryUser');
-    tag.slideUp().remove();
-    prependUser(name, email);
+    tag.slideUp(function() {
+        $(this).remove();
+    });
+    signInUser(name, email);
 }
 
-function signinUser(tag, name, email) {   
+function registerUser(tag, name, email) {   
     $.ajax({
         url: '/signin',
         dataType: 'json',
@@ -119,12 +129,4 @@ function signInError(tag, name, email) {
     tag.find('img').attr('src', '/img/cross.png');
     errormsg = name + ' (' + email + ') ' + 'has failed. Please try again.'
     tag.find('span').text(errormsg);
-}
-
-function getText(tag) {
-    if (tag.innerText == undefined) {
-        return tag.textContent;
-    } else {
-        return tag.innerText;
-    }
 }
