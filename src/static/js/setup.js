@@ -13,7 +13,7 @@ function validateForm() {
     
     var action = $('#action').val();
     if (action == 'create') {
-        if (newpassword = '') {
+        if (newpassword == '') {
             showUserMsg('Please fill out all inputs.');
             return false;
         } else if (newpassword != re_newpassword) {

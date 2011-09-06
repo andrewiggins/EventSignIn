@@ -29,7 +29,9 @@ from google.appengine.ext.webapp import template
 import datetime
 import hashlib
 
+from server import datetime_format_py as dtformat
 from models import Event
+
 
 class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
     
@@ -37,7 +39,7 @@ class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
         org = self.request.get('organization')
         eventname = self.request.get('event')
         date_str = self.request.get('date')
-        date = datetime.datetime.strptime(date_str, "%m/%d/%Y %I:%M %p")
+        date = datetime.datetime.strptime(date_str, dtformat)
         password = hashlib.sha256(self.request.get('password')).hexdigest()
         
         key_name = '.'.join([org, eventname, date_str])
@@ -54,7 +56,7 @@ class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
             
             path = '../static/html/signin.html'
             template_values = {'organization': org, 'event': eventname, 
-                               'datetime': date.strftime("%m/%d/%Y %I:%M %p")}
+                               'datetime': date.strftime(dtformat)}
             self.response.out.write(template.render(path, template_values, True))
         elif action == 'login':
             event = Event.get(key)

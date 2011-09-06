@@ -19,7 +19,10 @@
 $(function() {
     $('#login').hide();
     $('#date').datetimepicker({
-        ampm: true
+        ampm: true,
+        dateformat: "{{ dformat }}",
+        timeformat: "{{ tformat }}",
+        seperator: "{{ sep }}"
     });
     $('#eventForm').submit(function () {
         return validateForm();

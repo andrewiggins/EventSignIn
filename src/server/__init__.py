@@ -28,6 +28,11 @@ use_library('django', '1.2')
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
+datetime_format_py = "%m/%d/%Y %I:%M %p"
+date_format_js = "mm/dd/yy"
+time_format_js = "hh:mm tt"
+sepr_format_js = " "
+
 from setup import SetupPage
 from signin import SignInPage
 from record import RecordUser
