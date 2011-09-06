@@ -15,36 +15,6 @@
 
 <script type="text/javascript" src="/js/jquery-ui-timepicker-addon.min.js"></script>
 <script type="text/javascript" src="/js/setup.js"></script>
-<script type="text/javascript">
-$(function() {
-    $('#login').hide();
-    $('#date').datetimepicker({
-        ampm: true,
-        dateformat: "{{ dformat }}",
-        timeformat: "{{ tformat }}",
-        seperator: "{{ sep }}"
-    });
-    $('#eventForm').submit(function () {
-        return validateForm();
-    });
-    
-    $('nav li').click(function() {
-        var visible = $('.action:visible');
-        var toshow = $($(this).attr('show'));
-                        
-        if (!visible.is(toshow))
-        {
-            visible.slideToggle();
-            visible.find('input').removeAttr('required');
-            
-            toshow.slideToggle();
-            toshow.find('input').attr('required', 'required');
-            
-            $('#action').val(toshow.find('fieldset').attr('name'));
-        }        
-    });
-})
-</script>
 </head>
 
 <body>

@@ -8,17 +8,21 @@
 // TODO: add recaptcha
 // TODO: add setup email
 
-function prependUser(name, email){
-    if (name != '' && email != '') {
-        var logcontent = name + ' ('+email+') has signed in.';
-        var spanhtml = '<span>'+logcontent+'</span>';
-        var loghtml = '<div class="signinlog_entry first">'+spanhtml+'</div>';
+$(function () {
+    $('#signin').submit(function() {
+        data = {
+            organization: $('#org').val(),
+            event: $('#event').val(),
+            date: $('#datetime').val(),
+            name: $('#name').val(),
+            email: $('#email').val() 
+        }
+        console.log(data);
+        signInUser(data);
         
-        $('#signinlog div.first').removeClass('first');
-        $('#signinlog').prepend(loghtml);
-        $('#signinlog div.first').hide().slideDown();
-    }
-}
+        return false;
+    });
+})
 
 function signInUser(data) {
     name = data.name;
@@ -41,6 +45,18 @@ function signInUser(data) {
                 showUserMsg('success', name, email);
             }
         }
+    }
+}
+
+function prependUser(name, email){
+    if (name != '' && email != '') {
+        var logcontent = name + ' ('+email+') has signed in.';
+        var spanhtml = '<span>'+logcontent+'</span>';
+        var loghtml = '<div class="signinlog_entry first">'+spanhtml+'</div>';
+        
+        $('#signinlog div.first').removeClass('first');
+        $('#signinlog').prepend(loghtml);
+        $('#signinlog div.first').hide().slideDown();
     }
 }
 

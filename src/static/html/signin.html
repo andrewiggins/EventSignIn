@@ -6,23 +6,6 @@
 <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> -->
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/signin.js"></script>
-<script type="text/javascript">
-$(function () {
-    $('#signin').submit(function() {
-        data = {
-            organization: $('#org').val(),
-            event: $('#event').val(),
-            date: $('#datetime').val(),
-            name: $('#name').val(),
-            email: $('#email').val() 
-        }
-        console.log(data);
-        signInUser(data);
-        
-        return false;
-    });
-})
-</script>
 </head>
 
 <body>

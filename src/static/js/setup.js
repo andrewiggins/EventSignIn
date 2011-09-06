@@ -1,3 +1,32 @@
+$(function() {
+    $('#login').hide();
+    $('#date').datetimepicker({
+        ampm: true,
+        dateformat: "{{ dformat }}",
+        timeformat: "{{ tformat }}",
+        seperator: "{{ sep }}"
+    });
+    $('#eventForm').submit(function () {
+        return validateForm();
+    });
+    
+    $('nav li').click(function() {
+        var visible = $('.action:visible');
+        var toshow = $($(this).attr('show'));
+                        
+        if (!visible.is(toshow))
+        {
+            visible.slideToggle();
+            visible.find('input').removeAttr('required');
+            
+            toshow.slideToggle();
+            toshow.find('input').attr('required', 'required');
+            
+            $('#action').val(toshow.find('fieldset').attr('name'));
+        }        
+    });
+})
+
 function validateForm() { 
     var org = $('#org').val();
     var event = $('#event').val();
