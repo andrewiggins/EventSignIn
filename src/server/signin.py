@@ -59,7 +59,7 @@ class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
                 
                 path = '../static/html/signin.html'
                 template_values = {'organization': org, 'event': eventname, 
-                                   'datetime': date.strftime(dtformat)}
+                                   'datetime': date_str}
                 self.response.out.write(template.render(path, template_values, True))
             else:
                 self.response.out.write('Event already exist. \nDid you mean to login to the event?')
@@ -76,7 +76,8 @@ class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
                 self.response.out.write(header+eventinfo)
             elif password == event.password: # Event exist; correct password
                 path = '../static/html/signin.html'
-                template_values = {'organization': org, 'event': eventname}
+                template_values = {'organization': org, 'event': eventname, 
+                                   'datetime': date_str}
                 self.response.out.write(template.render(path, template_values, True))
             else: # Event exist; wrong password
                 self.response.out.write('Bad Event/Password Combination.')
