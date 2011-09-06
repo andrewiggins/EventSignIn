@@ -22,13 +22,47 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
-
+from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
+import datetime
+import hashlib
+
+from models import Event
+
 class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
     
-    def get(self):
-        path = '../static/html/signin.html'
-        template_values = {'organization': 'Phi Sigma Pi', 'event': 'Rush Event'}
-        self.response.out.write(template.render(path, template_values, True))
+    def post(self):
+        org = self.request.get('organization')
+        eventname = self.request.get('event')
+        date = self.request.get('date')
+        password = hashlib.sha256(self.request.get('password')).hexdigest()
+        
+        key_name = '.'.join([org, eventname, date])
+        key = db.Key.from_path('Event', key_name)
+        
+        action = self.request.get('action')
+        if action == 'create':
+            event = Event(key=key,
+                          name=eventname, 
+                          organization=org, 
+                          datetime=datetime.datetime.strptime(date, "%m/%d/%Y %I:%M %p"),
+                          password=password)
+            event.put()
+            
+            path = '../static/html/signin.html'
+            template_values = {'organization': org, 'event': eventname}
+            self.response.out.write(template.render(path, template_values, True))
+        elif action == 'login':
+            event = Event.get(key)
+            if event is None: # Event does not exist
+                pass
+            elif password == event.password: # Event exist; correct password
+                path = '../static/html/signin.html'
+                template_values = {'organization': org, 'event': eventname}
+                self.response.out.write(template.render(path, template_values, True))
+            else: # Event exist; wrong password
+                pass
+        else: #action malformed, show error
+            pass
