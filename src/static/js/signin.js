@@ -1,10 +1,14 @@
+// TODO: write code to have jquery and python datetime format match
 // TODO: on retry, it shows the error msg again....
 // TODO: when a log is sent through the channel, no picture will be shown
-// TODO: re-organize server
 
-// TODO: setup datastore
+// TODO: write create code
+// TODO: write login code
+// TODO: write add user code
+
 // TODO: setup channel
 // TODO: setup download
+// TODO: setup auto-delete
 
 function prependUser(name, email){
     if (name != '' || email != '') {

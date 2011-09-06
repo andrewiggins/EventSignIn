@@ -34,6 +34,7 @@ class RecordUser(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
         name = self.request.get('name')
         email = self.request.get('email')
         
+        # Add User add code here
         time.sleep(2);
         if RecordUser.count % 5 == 0:
             resultdata = {'status': 'error'}

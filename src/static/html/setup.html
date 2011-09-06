@@ -2,18 +2,27 @@
 <html>
 <head>
 <title>Setup Event</title>
+
+<link rel="stylesheet" href="/css/smoothness/jquery-ui-1.8.16.custom.css" />
+
 <link rel="stylesheet" href="/css/styles.css" />
 
 <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> -->
 <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script> -->
 
 <script type="text/javascript" src="/js/jquery.min.js"></script>
-<script type="text/javascript" src="/js/jquery.ui.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.16.custom.min.js"></script>
 
 <script type="text/javascript" src="/js/jquery-ui-timepicker-addon.min.js"></script>
 <script type="text/javascript">
 $(function() {
     $('#login').hide();
+    $('#date').datetimepicker({
+        ampm: true
+    });
+    $('#eventForm').submit(function () {
+        return validateForm();
+    });
     
     $('nav li').click(function() {
         var visible = $('.action:visible');
@@ -23,6 +32,7 @@ $(function() {
         {
             visible.slideToggle();
             toshow.slideToggle();
+            $('#action').val(toshow.find('fieldset').attr('name'));
         }        
     });
 })
@@ -42,7 +52,7 @@ $(function() {
 </ul>
 </nav>
 
-<form action="/event" method="post">
+<form id="eventForm" action="/event" method="post">
 
 <div id="eventinfo">
 <fieldset name="eventinfo" class="center">
@@ -58,7 +68,7 @@ $(function() {
 	</div>
 	<div class="field">
 	    <label for="date">Date:</label>
-	    <input name="date" type="text" />
+	    <input id="date" name="date" type="text" />
 	</div>
 </div>
 </fieldset>
@@ -99,6 +109,8 @@ $(function() {
 </div>
 </fieldset>
 </div>
+
+<input type="hidden" id="action" name="action" value="create" />
 
 </form>
 

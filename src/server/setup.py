@@ -28,7 +28,7 @@ from google.appengine.ext.webapp import template
 
 class SetupPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
 
-    def get(self):
+    def get(self):        
         path = '../static/html/setup.html'
         template_values = {}
         self.response.out.write(template.render(path, template_values, True))
