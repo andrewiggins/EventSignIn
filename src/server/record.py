@@ -24,8 +24,8 @@
 
 from google.appengine.ext import db
 from google.appengine.ext import webapp
+from django.utils import simplejson as json #@UnresolvedImport - for Eclipse
 
-import json
 import logging
 import traceback
 

@@ -46,8 +46,7 @@ def main():
 app = webapp.WSGIApplication([('/?', SetupPage), #@UndefinedVariable - for Eclipse
                               ('/event/?', SignInPage),
                               ('/signin/?', RecordUser),
-                              ('/download/?', DownloadCSV)],
-                              debug=True)
+                              ('/download/?', DownloadCSV)])
 
 
 if __name__ == "__main__":
