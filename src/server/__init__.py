@@ -36,6 +36,7 @@ sepr_format_js = " "
 from setup import SetupPage
 from signin import SignInPage
 from record import RecordUser
+from download import DownloadCSV
 
 
 def main():
@@ -44,7 +45,8 @@ def main():
 
 app = webapp.WSGIApplication([('/?', SetupPage), #@UndefinedVariable - for Eclipse
                               ('/event/?', SignInPage),
-                              ('/signin/?', RecordUser)],
+                              ('/signin/?', RecordUser),
+                              ('/download/?', DownloadCSV)],
                               debug=True)
 
 

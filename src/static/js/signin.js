@@ -1,11 +1,13 @@
-// TODO: setup download
 // TODO: setup channel
+// TODO: add password for downloading
 // TODO: setup error pages
 // TODO: setup auto-delete
 // TODO: add recaptcha
 // TODO: add setup email
 
 $(function () {
+    $('#downloadpassword').hide();
+    
     $('#signin').submit(function() {
         data = {
             organization: $('#org').val(),

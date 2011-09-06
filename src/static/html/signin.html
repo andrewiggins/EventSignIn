@@ -48,6 +48,21 @@
 
 </form>  
 
+<div>
+	<a id="download" target="_self" 
+	href="/download?organization={{ organization }}&event={{ event }}&datetime={{ datetime }}">
+	Download spreadsheet of current signins
+	</a>
+	<section id="downloadpassword">
+	<div class="fields center">
+		<form action="/download" method="post" id="login" class="field">
+		  <label for="password">Password:</label>
+		  <input id="password" name="password" type="password" />
+		</form>
+	</div>
+	</section>
+</div>
+
 <section id="signinlog">
 {% for user in users %}
 <div class="signinlog_entry {% if forloop.first %}first{% endif %}"><span>{{ user.name }} ({{ user.email }}) has signed in.</span><img src="/img/tick.png" /></div>
