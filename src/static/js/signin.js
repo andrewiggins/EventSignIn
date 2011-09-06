@@ -1,5 +1,3 @@
-// TODO: write code to have jquery and python datetime format match
-// TODO: on retry, it shows the error msg again....
 // TODO: when a log is sent through the channel, no picture will be shown
 
 // TODO: write add user code
@@ -32,10 +30,9 @@ function signInUser(name, email) {
         } else {
             userTag = userTag.first();
             if (userTag.hasClass('error')) {
-                showUserMsg('error', name, email);
-                setTimeout(function() {
+                showUserMsg('error', name, email, function () {
                     retryUser(userTag, name, email);
-                }, 1000);
+                });
             } else if (userTag.hasClass('loading')) {
                 showUserMsg('loading', name, email);
             } else {
@@ -69,7 +66,7 @@ function getUserMsg(status, name, email) {
     return msg;
 }
 
-function showUserMsg(status, name, email) {
+function showUserMsg(status, name, email, callback) {
     var msg = getUserMsg(status, name, email);
     
     $('#msgs').addClass('changing')
@@ -89,7 +86,7 @@ function showUserMsg(status, name, email) {
             var ischanging = $('#msgs').hasClass('changing');
             
             if (!ischanging && idmatch)
-                $('#msgs').slideUp();
+                $('#msgs').slideUp(callback);
         }, 2000)
     });
 }
@@ -97,8 +94,8 @@ function showUserMsg(status, name, email) {
 function retryUser(tag, name, email) {
     tag.slideUp(function() {
         $(this).remove();
+        signInUser(name, email);
     });
-    signInUser(name, email);
 }
 
 function registerUser(tag, name, email) {   
