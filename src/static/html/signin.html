@@ -9,9 +9,15 @@
 <script type="text/javascript">
 $(function () {
     $('#signin').submit(function() {
-        var name = $('#name').val();
-        var email = $('#email').val();
-        signInUser(name, email);
+        data = {
+            organization: $('#org').val(),
+            event: $('#event').val(),
+            date: $('#datetime').val(),
+            name: $('#name').val(),
+            email: $('#email').val() 
+        }
+        console.log(data);
+        signInUser(data);
         
         return false;
     });
@@ -49,9 +55,9 @@ $(function () {
 </div>
 </fieldset>
 
-<input name="organization" type="hidden" value="{{ organization }}" />
-<input name="event" type="hidden" value="{{ event }}" />
-<input name="date" type="hidden" value="{{ date }}" />
+<input id="org" name="organization" type="hidden" value="{{ organization }}" />
+<input id="event" name="event" type="hidden" value="{{ event }}" />
+<input id="datetime" name="datetime" type="hidden" value="{{ datetime }}" />
 
 <img src="/img/loading.gif" class="nodisplay"/>
 <img src="/img/tick.png" class="nodisplay"/>

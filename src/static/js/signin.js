@@ -10,7 +10,7 @@
 // TODO: add setup email
 
 function prependUser(name, email){
-    if (name != '' || email != '') {
+    if (name != '' && email != '') {
         var logcontent = name + ' ('+email+') has signed in.';
         var spanhtml = '<span>'+logcontent+'</span>';
         var loghtml = '<div class="signinlog_entry first">'+spanhtml+'</div>';
@@ -21,12 +21,15 @@ function prependUser(name, email){
     }
 }
 
-function signInUser(name, email) {
-    if (name != '' || email != '') {
+function signInUser(data) {
+    name = data.name;
+    email = data.email;
+    
+    if (name != '' && email != '') {
         var userTag = getUserTag(name, email)
         if (userTag.length == 0) {
             prependUser(name, email);
-            registerUser($('#signinlog div.first'), name, email);
+            registerUser($('#signinlog div.first'), data);
         } else {
             userTag = userTag.first();
             if (userTag.hasClass('error')) {
@@ -91,18 +94,18 @@ function showUserMsg(status, name, email, callback) {
     });
 }
 
-function retryUser(tag, name, email) {
+function retryUser(tag, data) {
     tag.slideUp(function() {
         $(this).remove();
-        signInUser(name, email);
+        signInUser(data);
     });
 }
 
-function registerUser(tag, name, email) {   
+function registerUser(tag, data) {    
     $.ajax({
         url: '/signin',
         dataType: 'json',
-        data: {'name': name, 'email': email},
+        data: data,
         beforeSend: function(jqXHR, settings) {
             tag.addClass('loading');
             tag.append('<img src="/img/loading.gif" />');
@@ -111,10 +114,10 @@ function registerUser(tag, name, email) {
             if (data.status == 'success')
                 signInSuccess(tag);
             else
-                signInError(tag, name, email);
+                signInError(tag, data.name, data.email);
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            signInError(tag, name, email);
+            signInError(tag, data.name, data.email);
         },
         complete: function(jqXHR, textStatus) {
             tag.removeClass('loading');

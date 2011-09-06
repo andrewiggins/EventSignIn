@@ -22,25 +22,43 @@
 #  limitations under the License.
 #-------------------------------------------------------------------------------
 
+from google.appengine.ext import db
 from google.appengine.ext import webapp
 
-import time
 import json
+import logging
+import traceback
+
+from models import User
 
 class RecordUser(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
-    count = 0;
     
     def get(self):
+        org = self.request.get('organization')
+        event = self.request.get('event')
+        date = self.request.get('date')
+        
         name = self.request.get('name')
         email = self.request.get('email')
         
-        # Add User add code here
-        time.sleep(2);
-        if RecordUser.count % 5 == 0:
+        user_key_name = name+':'+email
+        userkey = db.Key.from_path('User', user_key_name)
+        
+        event_key_name = '.'.join([org, event, date])
+        logging.warning(event_key_name)
+        eventkey = db.Key.from_path('Event', event_key_name)
+        
+        try:
+            user = User(key=userkey,
+                        name=name,
+                        email=email,
+                        event=eventkey)
+            user.put()
+        except db.Error:
             resultdata = {'status': 'error'}
+            logging.error(traceback.format_exc())
         else:
             resultdata = {'status': 'success'}
 
         resultjson = json.dumps(resultdata)
         self.response.out.write(resultjson)
-        RecordUser.count += 1;
