@@ -32,7 +32,11 @@ $(function() {
         if (!visible.is(toshow))
         {
             visible.slideToggle();
+            visible.find('input').removeAttr('required');
+            
             toshow.slideToggle();
+            toshow.find('input').attr('required', 'required');
+            
             $('#action').val(toshow.find('fieldset').attr('name'));
         }        
     });
@@ -63,15 +67,15 @@ $(function() {
 <div class="fields center">
 	<div class="field">
 	    <label for="organization">Organization Name:</label>
-	    <input name="organization" type="text" />
+	    <input id="org" name="organization" type="text" required/>
 	</div>
 	<div class="field">
 	    <label for="event">Event Name:</label>
-	    <input name="event" type="text" />
+	    <input id="event" name="event" type="text" required/>
 	</div>
 	<div class="field">
 	    <label for="date">Date:</label>
-	    <input id="date" name="date" type="text" />
+	    <input id="date" name="date" type="text" required/>
 	</div>
 </div>
 </fieldset>
@@ -83,7 +87,7 @@ $(function() {
 <div class="fields center">
 	<div class="field">
 	    <label for="password">Password:</label>
-	    <input name="password" type="password" />
+	    <input id="password" name="password" type="password" />
 	</div>
 	<div class="field">
         <label></label>
@@ -99,11 +103,11 @@ $(function() {
 <div class="fields center">
     <div class="field">
         <label for="newpassword">Choose a password:</label>
-        <input id="newpassword" name="newpassword" type="password" />
+        <input id="newpassword" name="newpassword" type="password" required/>
     </div>
     <div class="field">
         <label for="re_newpassword">Re-enter Password:</label>
-        <input id="re_newpassword" name="re_newpassword" type="password" />
+        <input id="re_newpassword" name="re_newpassword" type="password" required/>
     </div>
     <div class="field">
         <label></label>

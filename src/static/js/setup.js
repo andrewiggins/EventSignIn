@@ -1,7 +1,22 @@
-function validateForm() {
+function validateForm() { 
+    var org = $('#org').val();
+    var event = $('#event').val();
+    var datetime = $('#date').val();
+    var password = $('#password').val();
+    var newpassword = $('#newpassword').val();
+    var re_newpassword = $('#re_newpassword').val();
+    
+    if (org == '' || event == '' || datetime == '') {
+        showUserMsg('Please fill out all inputs.');
+        return false;
+    }
+    
     var action = $('#action').val();
     if (action == 'create') {
-        if ($('#newpassword').val() != $('#re_newpassword').val()) {
+        if (newpassword = '') {
+            showUserMsg('Please fill out all inputs.');
+            return false;
+        } else if (newpassword != re_newpassword) {
             showUserMsg('Passwords do not match.');
             return false;
         }
