@@ -36,10 +36,11 @@ class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
     def post(self):
         org = self.request.get('organization')
         eventname = self.request.get('event')
-        date = self.request.get('date')
+        date_str = self.request.get('date')
+        date = datetime.datetime.strptime(date_str, "%m/%d/%Y %I:%M %p")
         password = hashlib.sha256(self.request.get('password')).hexdigest()
         
-        key_name = '.'.join([org, eventname, date])
+        key_name = '.'.join([org, eventname, date_str])
         key = db.Key.from_path('Event', key_name)
         
         action = self.request.get('action')
@@ -47,22 +48,23 @@ class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
             event = Event(key=key,
                           name=eventname, 
                           organization=org, 
-                          datetime=datetime.datetime.strptime(date, "%m/%d/%Y %I:%M %p"),
+                          datetime=date,
                           password=password)
             event.put()
             
             path = '../static/html/signin.html'
-            template_values = {'organization': org, 'event': eventname}
+            template_values = {'organization': org, 'event': eventname, 
+                               'datetime': date.strftime("%m/%d/%Y %I:%M %p")}
             self.response.out.write(template.render(path, template_values, True))
         elif action == 'login':
             event = Event.get(key)
             if event is None: # Event does not exist
-                pass
+                self.response.out.write('Event Does Not Exist')
             elif password == event.password: # Event exist; correct password
                 path = '../static/html/signin.html'
                 template_values = {'organization': org, 'event': eventname}
                 self.response.out.write(template.render(path, template_values, True))
             else: # Event exist; wrong password
-                pass
+                self.response.out.write('wrong password')
         else: #action malformed, show error
-            pass
+            self.response.out.write('no action')
