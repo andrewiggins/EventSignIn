@@ -40,26 +40,32 @@ class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
         eventname = self.request.get('event')
         date_str = self.request.get('date')
         date = datetime.datetime.strptime(date_str, dtformat)
-        password = hashlib.sha256(self.request.get('password')).hexdigest()
         
         key_name = '.'.join([org, eventname, date_str])
         key = db.Key.from_path('Event', key_name)
         
         action = self.request.get('action')
+        event = Event.get(key)
         if action == 'create':
-            event = Event(key=key,
-                          name=eventname, 
-                          organization=org, 
-                          datetime=date,
-                          password=password)
-            event.put()
+            newpassword = hashlib.sha256(self.request.get('newpassword')).hexdigest()
             
-            path = '../static/html/signin.html'
-            template_values = {'organization': org, 'event': eventname, 
-                               'datetime': date.strftime(dtformat)}
-            self.response.out.write(template.render(path, template_values, True))
+            if event is None:                
+                event = Event(key=key,
+                              name=eventname, 
+                              organization=org, 
+                              datetime=date,
+                              password=newpassword)
+                event.put()
+                
+                path = '../static/html/signin.html'
+                template_values = {'organization': org, 'event': eventname, 
+                                   'datetime': date.strftime(dtformat)}
+                self.response.out.write(template.render(path, template_values, True))
+            else:
+                self.response.out.write('Event already exist. \nDid you mean to login to the event?')
         elif action == 'login':
-            event = Event.get(key)
+            password = hashlib.sha256(self.request.get('password')).hexdigest()
+            
             if event is None: # Event does not exist
                 header = ('Event does not exist. \nDid you mean to create it?'+
                           ' Did you type in all the information correctly:\n')
@@ -74,6 +80,7 @@ class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
                 self.response.out.write(template.render(path, template_values, True))
             else: # Event exist; wrong password
                 self.response.out.write('Bad Event/Password Combination.')
+                
         else: #action malformed, show error
             self.response.out.write('Server Error. Please try again. (Invalid '+
                                     'value for "action": %s' % action)
