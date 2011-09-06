@@ -1,9 +1,8 @@
+// TODO: write add remote user
 // TODO: when a log is sent through the channel, no picture will be shown
 
-// TODO: write add user code
-
-// TODO: setup channel
 // TODO: setup download
+// TODO: setup channel
 // TODO: setup error pages
 // TODO: setup auto-delete
 // TODO: add recaptcha

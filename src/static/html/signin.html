@@ -66,6 +66,9 @@ $(function () {
 </form>  
 
 <section id="signinlog">
+{% for user in users %}
+<div class="signinlog_entry {% if forloop.first %}first{% endif %}"><span>{{ user.name }} ({{ user.email }}) has signed in.</span><img src="/img/tick.png" /></div>
+{% endfor %}
 </section>
 
 </body>
