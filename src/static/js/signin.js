@@ -1,6 +1,3 @@
-// TODO: write add remote user
-// TODO: when a log is sent through the channel, no picture will be shown
-
 // TODO: setup download
 // TODO: setup channel
 // TODO: setup error pages
@@ -23,6 +20,10 @@ $(function () {
         return false;
     });
 })
+
+function sanatize(s) {
+    return s.replace('>', '&gt;').replace('<', '&lt;').replace('&', '&amp;');
+}
 
 function signInUser(data) {
     name = data.name;
@@ -50,6 +51,8 @@ function signInUser(data) {
 
 function prependUser(name, email){
     if (name != '' && email != '') {
+        name = sanatize(name);
+        email = sanatize(email);
         var logcontent = name + ' ('+email+') has signed in.';
         var spanhtml = '<span>'+logcontent+'</span>';
         var loghtml = '<div class="signinlog_entry first">'+spanhtml+'</div>';
@@ -58,6 +61,11 @@ function prependUser(name, email){
         $('#signinlog').prepend(loghtml);
         $('#signinlog div.first').hide().slideDown();
     }
+}
+
+function prependRemoteUser(name, email) {
+    prependUser(name, email);
+    $('#signinlog div.first').append('<img src="/img/tick.png" />');
 }
 
 function getUserTag(name, email) {
