@@ -9,6 +9,8 @@
 // TODO: setup channel
 // TODO: setup download
 // TODO: setup auto-delete
+// TODO: add recaptcha
+// TODO: add setup email
 
 function prependUser(name, email){
     if (name != '' || email != '') {

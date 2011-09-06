@@ -14,6 +14,7 @@
 <script type="text/javascript" src="/js/jquery-ui-1.8.16.custom.min.js"></script>
 
 <script type="text/javascript" src="/js/jquery-ui-timepicker-addon.min.js"></script>
+<script type="text/javascript" src="/js/setup.js"></script>
 <script type="text/javascript">
 $(function() {
     $('#login').hide();
@@ -51,6 +52,8 @@ $(function() {
     <li role="button" show="#login">Login to Event</li>
 </ul>
 </nav>
+
+<section id="msgs"></section>
 
 <form id="eventForm" action="/event" method="post">
 
@@ -96,11 +99,11 @@ $(function() {
 <div class="fields center">
     <div class="field">
         <label for="newpassword">Choose a password:</label>
-        <input name="newpassword" type="password" />
+        <input id="newpassword" name="newpassword" type="password" />
     </div>
     <div class="field">
         <label for="re_newpassword">Re-enter Password:</label>
-        <input name="re_newpassword" type="password" />
+        <input id="re_newpassword" name="re_newpassword" type="password" />
     </div>
     <div class="field">
         <label></label>
