@@ -2,12 +2,11 @@
 // TODO: on retry, it shows the error msg again....
 // TODO: when a log is sent through the channel, no picture will be shown
 
-// TODO: write create code
-// TODO: write login code
 // TODO: write add user code
 
 // TODO: setup channel
 // TODO: setup download
+// TODO: setup error pages
 // TODO: setup auto-delete
 // TODO: add recaptcha
 // TODO: add setup email

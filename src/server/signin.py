@@ -59,12 +59,19 @@ class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
         elif action == 'login':
             event = Event.get(key)
             if event is None: # Event does not exist
-                self.response.out.write('Event Does Not Exist')
+                header = ('Event does not exist. \nDid you mean to create it?'+
+                          ' Did you type in all the information correctly:\n')
+                eventinfo = ('\nOrganization: %s \nEvent: %s \nDate/Time: %s' 
+                             %(org, eventname, date_str))
+                
+                self.response.headers.add_header('Content-Type', 'text/plain')
+                self.response.out.write(header+eventinfo)
             elif password == event.password: # Event exist; correct password
                 path = '../static/html/signin.html'
                 template_values = {'organization': org, 'event': eventname}
                 self.response.out.write(template.render(path, template_values, True))
             else: # Event exist; wrong password
-                self.response.out.write('wrong password')
+                self.response.out.write('Bad Event/Password Combination.')
         else: #action malformed, show error
-            self.response.out.write('no action')
+            self.response.out.write('Server Error. Please try again. (Invalid '+
+                                    'value for "action": %s' % action)
