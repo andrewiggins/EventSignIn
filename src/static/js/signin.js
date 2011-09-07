@@ -1,9 +1,12 @@
-// TODO: setup channel
+// TODO: setup channels
 // TODO: add password for downloading
 // TODO: setup error pages
+// TODO: re-organize code for consistency
 // TODO: setup auto-delete
 // TODO: add recaptcha
-// TODO: add setup email
+// TODO: add setup-er's email
+// TODO: add disclaimer about event existing for 7 days
+// TODO: setup automatic email
 
 $(function () {
     $('#downloadpassword').hide();
@@ -12,7 +15,7 @@ $(function () {
         data = {
             organization: $('#org').val(),
             event: $('#event').val(),
-            date: $('#datetime').val(),
+            datetime: $('#datetime').val(),
             name: $('#name').val(),
             email: $('#email').val() 
         }

@@ -36,7 +36,7 @@ class RecordUser(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
     def get(self):
         org = self.request.get('organization')
         event = self.request.get('event')
-        date = self.request.get('date')
+        datetime = self.request.get('datetime')
         
         name = self.request.get('name')
         email = self.request.get('email')
@@ -44,7 +44,7 @@ class RecordUser(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
         user_key_name = name+':'+email
         userkey = db.Key.from_path('User', user_key_name)
         
-        event_key_name = '.'.join([org, event, date])
+        event_key_name = '.'.join([org, event, datetime])
         logging.warning(event_key_name)
         eventkey = db.Key.from_path('Event', event_key_name)
         

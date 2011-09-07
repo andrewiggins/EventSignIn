@@ -26,7 +26,7 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 
-import datetime
+import datetime as datetimefuncs
 import hashlib
 
 from server import datetime_format_py as dtformat
@@ -38,8 +38,8 @@ class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
     def post(self):
         org = self.request.get('organization')
         eventname = self.request.get('event')
-        date_str = self.request.get('date')
-        date = datetime.datetime.strptime(date_str, dtformat)
+        date_str = self.request.get('datetime')
+        datetime = datetimefuncs.datetime.strptime(date_str, dtformat)
         
         key_name = '.'.join([org, eventname, date_str])
         key = db.Key.from_path('Event', key_name)
@@ -53,7 +53,7 @@ class SignInPage(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
                 event = Event(key=key,
                               name=eventname, 
                               organization=org, 
-                              datetime=date,
+                              datetime=datetime,
                               password=newpassword)
                 event.put()
                 

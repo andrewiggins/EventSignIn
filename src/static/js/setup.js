@@ -1,6 +1,6 @@
 $(function() {
     $('#login').hide();
-    $('#date').datetimepicker({
+    $('#datetime').datetimepicker({
         ampm: true,
         dateformat: "{{ dformat }}",
         timeformat: "{{ tformat }}",
@@ -30,7 +30,7 @@ $(function() {
 function validateForm() { 
     var org = $('#org').val();
     var event = $('#event').val();
-    var datetime = $('#date').val();
+    var datetime = $('#datetime').val();
     var password = $('#password').val();
     var newpassword = $('#newpassword').val();
     var re_newpassword = $('#re_newpassword').val();
