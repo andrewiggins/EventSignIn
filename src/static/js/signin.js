@@ -51,6 +51,9 @@ function signInUser(data) {
                 showUserMsg('success', name, email);
             }
         }
+        
+        $('#email').val('');
+        $('#name').val('').focus();
     }
 }
 
