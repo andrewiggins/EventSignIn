@@ -17,3 +17,4 @@ class User(db.Model):
     name = db.StringProperty(verbose_name="Name", required=True);
     email = db.EmailProperty(verbose_name="Email", required=True);
     event = db.ReferenceProperty(reference_class=Event, verbose_name="Event", required=True);
+    signin_time = db.DateTimeProperty(auto_now_add=True)

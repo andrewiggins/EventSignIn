@@ -43,9 +43,9 @@ class DownloadCSV(webapp.RequestHandler): #@UndefinedVariable - for Eclipse
         
         output = StringIO.StringIO()
         output.write('%s,%s,%s\n' % (org, eventname, datetime))
-        output.write('%s, %s\n' % ('Name', 'Email'))
+        output.write('%s, %s, %s\n' % ('Name', 'Email', 'Signin Time'))
         for user in users:
-            output.write("%s, %s\n" % (user.name, user.email))
+            output.write("%s, %s, %s\n" % (user.name, user.email, user.signin_time))
         
         filename = "%s - %s SignIn.csv" % (org.title(), eventname.title())
         self.response.headers['Content-Type'] = 'text/csv'
